@@ -2,10 +2,14 @@
 const itemsContainer = document.querySelectorAll(".items-container");
 let actualContainer, actualBtn, actualUL, actualForm, actualTextInput, actualValidation;
 function addContainerListners(currentContainer) {
+    const currentCloseFormBtn = currentContainer.querySelector(".close-form-btn");
     const currentContainerDeletionBtn = currentContainer.querySelector(".delete-container-btn");
     const currentAddItemBtn = currentContainer.querySelector(".add-item-btn");
+    const currentForm = currentContainer.querySelector('form');
     deleteBtnListeners(currentContainerDeletionBtn);
     addItemBtnListeners(currentAddItemBtn);
+    closingFormBtnListeners(currentCloseFormBtn);
+    addFormSubmitListeners(currentForm);
 }
 itemsContainer.forEach((container) => {
     addContainerListners(container);
@@ -15,6 +19,12 @@ function addItemBtnListeners(btn) {
 }
 function deleteBtnListeners(btn) {
     btn.addEventListener("click", handleContainerDeletion);
+}
+function closingFormBtnListeners(btn) {
+    btn.addEventListener("click", () => toggleForm(actualBtn, actualForm, false));
+}
+function addFormSubmitListeners(form) {
+    form.addEventListener("submit", createNewItem);
 }
 function handleAddItem(event) {
     const btn = event.target;
@@ -26,10 +36,10 @@ function handleAddItem(event) {
 function setContainerItems(btn) {
     actualBtn = btn;
     actualContainer = btn.parentElement;
-    actualUL = actualContainer.querySelector('ul');
-    actualTextInput = actualContainer.querySelector('input');
-    actualForm = actualContainer.querySelector('form');
-    actualValidation = actualContainer.querySelector('.validation-msg');
+    actualUL = actualContainer.querySelector("ul");
+    actualTextInput = actualContainer.querySelector("input");
+    actualForm = actualContainer.querySelector("form");
+    actualValidation = actualContainer.querySelector(".validation-msg");
 }
 function toggleForm(btn, form, action) {
     if (!action) {
@@ -51,4 +61,6 @@ function handleContainerDeletion(event) {
         ...document.querySelectorAll(".items-container"),
     ];
     (_a = containers[btnArray.indexOf(btn)]) === null || _a === void 0 ? void 0 : _a.remove();
+}
+function createNewItem(event) {
 }
