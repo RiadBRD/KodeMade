@@ -1,0 +1,7 @@
+models\Vehicule.class
+models\Voiture.class
+com\example\Main.class
+models\Moto.class
+models\Garage.class
+contracts\Electrique.class
+models\VoitureElectrique.class
