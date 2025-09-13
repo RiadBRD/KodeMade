@@ -2,10 +2,9 @@ import { Status } from '../enum/Status.js';
 export declare class Task {
     private title;
     private description;
-    private static lastId;
-    private id;
     private status;
-    constructor(title: string, description: string);
+    private id;
+    constructor(title: string, description: string, status: Status);
     getId(): number;
     getTitle(): string;
     getDescription(): string;

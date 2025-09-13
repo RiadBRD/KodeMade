@@ -2,14 +2,10 @@
 import { Status } from '../enum/Status.js';
 
 export class Task {
-  private static lastId = localStorage.length;
   private id: number;
-  private status: Status;
 
-  constructor(private title: string, private description: string) {
-    Task.lastId++;
-    this.id = Task.lastId;
-    this.status = Status.IN_PROGRESS;
+  constructor(private title: string, private description: string,private status:Status) {
+    this.id =  Math.floor(Math.random() * 1000);
   }
 
   getId(): number {

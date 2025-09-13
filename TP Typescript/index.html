@@ -20,7 +20,14 @@
 
 
       <label for="description" style="color:white">Description:</label>
-      <input type="text" id="description" required />
+      <input class="me-5" type="text" id="description" required />
+
+      <label for="status" style="color:white">Choose a status</label>
+      <select class="me-5" name="status" id="status">
+        <option value=1>In progress</option>
+        <option value=0>Pending</option>
+        <option value=2>Completed</option>
+      </select>
 
 
       <button type="submit" class="submit-button">Submit</button>
@@ -32,6 +39,32 @@
       </div>
     </div>
   </div>
+
+  <div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="closeModalBtn" class="close">&times;</span>
+    <form class="update-form">
+
+      <label for="title" style="color:black">Title:</label>
+      <input class="me-5" type="text" id="title" required />
+
+
+
+      <label for="description" style="color:black">Description:</label>
+      <input class="me-5" type="text" id="description" required />
+
+      <label for="status" style="color:black">Choose a status</label>
+      <select class="me-5" name="status" id="status">
+        <option value=1>In progress</option>
+        <option value=0>Pending</option>
+        <option value=2>Completed</option>
+      </select>
+
+
+      <button type="submit" class="submit-button">Submit</button>
+    </form>
+  </div>
+</div>
 
   <script type="module" src="./src/app.js"></script>
 </body>
