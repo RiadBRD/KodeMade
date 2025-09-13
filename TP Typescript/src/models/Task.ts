@@ -2,14 +2,15 @@
 import { Status } from '../enum/Status.js';
 
 export class Task {
-  private id: number;
 
-  constructor(private title: string, private description: string,private status:Status) {
-    this.id =  Math.floor(Math.random() * 1000);
+  constructor(private title: string, private description: string,private status:Status,private id?:number) {
+    if(!this.id)this.id =  Math.floor(Math.random() * 1000);
   }
 
   getId(): number {
-    return this.id;
+    if(this.id)
+    {return this.id;}
+    return 0;
   }
 
   getTitle(): string {

@@ -1,3 +1,4 @@
+import type { Status } from "../enum/Status.js";
 import { Task } from "../models/Task.js";
 
 export class TaskService {
@@ -8,7 +9,6 @@ export class TaskService {
   }
 
   removeTask(task: Task): void {
-    console.dir(localStorage.getItem(task.getId().toString()));
     localStorage.removeItem(task.getId().toString());
   }
 
@@ -24,11 +24,13 @@ export class TaskService {
         const taskJson = localStorage.getItem(key);
         if (taskJson) {
           const obj = JSON.parse(taskJson);
-          const task = new Task(obj.title, obj.description,obj.status);
+          console.dir(obj)
+          const task = new Task(obj.title, obj.description,obj.status,obj.id);
           tasks.push(task);
         }
       }
     }
     return tasks;
   }
+
 }

@@ -3,8 +3,8 @@ export declare class Task {
     private title;
     private description;
     private status;
-    private id;
-    constructor(title: string, description: string, status: Status);
+    private id?;
+    constructor(title: string, description: string, status: Status, id?: number | undefined);
     getId(): number;
     getTitle(): string;
     getDescription(): string;

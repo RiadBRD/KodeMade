@@ -5,7 +5,6 @@ export class TaskService {
         localStorage.setItem(task.getId().toString(), JSON.stringify(task));
     }
     removeTask(task) {
-        console.dir(localStorage.getItem(task.getId().toString()));
         localStorage.removeItem(task.getId().toString());
     }
     updateTask(task) {
@@ -19,7 +18,8 @@ export class TaskService {
                 const taskJson = localStorage.getItem(key);
                 if (taskJson) {
                     const obj = JSON.parse(taskJson);
-                    const task = new Task(obj.title, obj.description, obj.status);
+                    console.dir(obj);
+                    const task = new Task(obj.title, obj.description, obj.status, obj.id);
                     tasks.push(task);
                 }
             }

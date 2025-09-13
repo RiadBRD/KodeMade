@@ -5,14 +5,19 @@ export class Task {
     description;
     status;
     id;
-    constructor(title, description, status) {
+    constructor(title, description, status, id) {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.id = Math.floor(Math.random() * 1000);
+        this.id = id;
+        if (!this.id)
+            this.id = Math.floor(Math.random() * 1000);
     }
     getId() {
-        return this.id;
+        if (this.id) {
+            return this.id;
+        }
+        return 0;
     }
     getTitle() {
         return this.title;
