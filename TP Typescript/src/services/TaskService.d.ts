@@ -1,6 +1,5 @@
 import { Task } from "../models/Task.js";
 export declare class TaskService {
-    constructor();
     addTask(task: Task): void;
     removeTask(task: Task): void;
     updateTask(task: Task): void;

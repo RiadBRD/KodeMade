@@ -1,11 +1,14 @@
-import type { Status } from "../enum/Status.js";
+import { Status } from "../enum/Status.js";
 import { Task } from "../models/Task.js";
 
 export class TaskService {
-  constructor() {}
-
   addTask(task: Task): void {
-    localStorage.setItem(task.getId().toString(), JSON.stringify(task));
+    localStorage.setItem(task.getId().toString(), JSON.stringify({
+      title: task.getTitle(),
+      description: task.getDescription(),
+      status: task.getStatusValue(),
+      id: task.getId()
+    }));
   }
 
   removeTask(task: Task): void {
@@ -13,7 +16,12 @@ export class TaskService {
   }
 
   updateTask(task: Task): void {
-    localStorage.setItem(task.getId().toString(),JSON.stringify(task));
+    localStorage.setItem(task.getId().toString(), JSON.stringify({
+      title: task.getTitle(),
+      description: task.getDescription(),
+      status: task.getStatusValue(),
+      id: task.getId()
+    }));
   }
 
   getAllTasks(): Task[] {
@@ -24,13 +32,16 @@ export class TaskService {
         const taskJson = localStorage.getItem(key);
         if (taskJson) {
           const obj = JSON.parse(taskJson);
-          console.dir(obj)
-          const task = new Task(obj.title, obj.description,obj.status,obj.id);
+          const task = new Task(
+            obj.title,
+            obj.description,
+            obj.status,
+            obj.id
+          );
           tasks.push(task);
         }
       }
     }
     return tasks;
   }
-
 }

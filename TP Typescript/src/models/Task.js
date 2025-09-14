@@ -1,4 +1,3 @@
-// Task.ts
 import { Status } from '../enum/Status.js';
 export class Task {
     title;
@@ -9,15 +8,10 @@ export class Task {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.id = id;
-        if (!this.id)
-            this.id = Math.floor(Math.random() * 1000);
+        this.id = id ?? Math.floor(Math.random() * 1000);
     }
     getId() {
-        if (this.id) {
-            return this.id;
-        }
-        return 0;
+        return this.id;
     }
     getTitle() {
         return this.title;
@@ -32,16 +26,22 @@ export class Task {
         this.description = description;
     }
     getStatus() {
-        if (this.status == 0) {
-            return "PENDING";
+        switch (this.status) {
+            case Status.PENDING:
+                return "PENDING";
+            case Status.IN_PROGRESS:
+                return "IN_PROGRESS";
+            case Status.COMPLETED:
+                return "COMPLETED";
+            default:
+                return "UNKNOWN";
         }
-        if (this.status == 1) {
-            return "IN_PROGRESS";
-        }
-        return "COMPLETED";
     }
     setStatus(s) {
         this.status = s;
+    }
+    getStatusValue() {
+        return this.status;
     }
 }
 //# sourceMappingURL=Task.js.map

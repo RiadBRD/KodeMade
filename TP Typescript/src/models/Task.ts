@@ -1,16 +1,19 @@
-// Task.ts
 import { Status } from '../enum/Status.js';
 
 export class Task {
+  private id: number;
 
-  constructor(private title: string, private description: string,private status:Status,private id?:number) {
-    if(!this.id)this.id =  Math.floor(Math.random() * 1000);
+  constructor(
+    private title: string,
+    private description: string,
+    private status: Status,
+    id?: number
+  ) {
+    this.id = id ?? Math.floor(Math.random() * 1000);
   }
 
   getId(): number {
-    if(this.id)
-    {return this.id;}
-    return 0;
+    return this.id;
   }
 
   getTitle(): string {
@@ -29,13 +32,24 @@ export class Task {
     this.description = description;
   }
 
-  getStatus():string{
-    if(this.status==0){return "PENDING"}
-    if(this.status==1){return "IN_PROGRESS"}
-    return "COMPLETED";
+  getStatus(): string {
+    switch (this.status) {
+      case Status.PENDING:
+        return "PENDING";
+      case Status.IN_PROGRESS:
+        return "IN_PROGRESS";
+      case Status.COMPLETED:
+        return "COMPLETED";
+      default:
+        return "UNKNOWN";
+    }
   }
 
-  setStatus(s:Status){
+  setStatus(s: Status): void {
     this.status = s;
+  }
+
+  getStatusValue(): Status {
+    return this.status;
   }
 }
