@@ -3,12 +3,15 @@ import { Task } from "../models/Task.js";
 
 export class TaskService {
   addTask(task: Task): void {
-    localStorage.setItem(task.getId().toString(), JSON.stringify({
-      title: task.getTitle(),
-      description: task.getDescription(),
-      status: task.getStatusValue(),
-      id: task.getId()
-    }));
+    localStorage.setItem(
+      task.getId().toString(),
+      JSON.stringify({
+        title: task.getTitle(),
+        description: task.getDescription(),
+        status: task.getStatusValue(),
+        id: task.getId(),
+      })
+    );
   }
 
   removeTask(task: Task): void {
@@ -16,12 +19,15 @@ export class TaskService {
   }
 
   updateTask(task: Task): void {
-    localStorage.setItem(task.getId().toString(), JSON.stringify({
-      title: task.getTitle(),
-      description: task.getDescription(),
-      status: task.getStatusValue(),
-      id: task.getId()
-    }));
+    localStorage.setItem(
+      task.getId().toString(),
+      JSON.stringify({
+        title: task.getTitle(),
+        description: task.getDescription(),
+        status: task.getStatusValue(),
+        id: task.getId(),
+      })
+    );
   }
 
   getAllTasks(): Task[] {
@@ -32,16 +38,28 @@ export class TaskService {
         const taskJson = localStorage.getItem(key);
         if (taskJson) {
           const obj = JSON.parse(taskJson);
-          const task = new Task(
-            obj.title,
-            obj.description,
-            obj.status,
-            obj.id
-          );
+          const task = new Task(obj.title, obj.description, obj.status, obj.id);
           tasks.push(task);
         }
       }
     }
     return tasks;
+  }
+
+  search(title?: string, status?: string) : Task[] {
+    let taskList = this.getAllTasks();
+    if (title) {
+      taskList = taskList.filter((task: Task) => task.getTitle() === title);
+     
+    }
+    
+    if (status) {
+      taskList = taskList.filter(
+        (task: Task) => task.getStatus() === Status[parseInt(status)]
+      );
+      console.log(taskList);
+    }
+
+    return taskList;
   }
 }

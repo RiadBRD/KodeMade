@@ -6,8 +6,8 @@ export class TaskUI {
   constructor(private readonly taskService: TaskService) {}
 
   init() {
-    this.displayTaskList();
-    const form = document.querySelector("form") as HTMLFormElement;
+    this.displayTaskList(this.taskService.getAllTasks());
+    const form = document.querySelector(".creation-form") as HTMLFormElement;
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const createdTask = this.createTaskWithForm();
@@ -15,15 +15,36 @@ export class TaskUI {
       this.renderTask(createdTask);
       form.reset();
     });
+
+    const searchForm = document.querySelector(
+      ".search-form"
+    ) as HTMLFormElement;
+    const searchTitleInput = searchForm.querySelector(
+      "input"
+    ) as HTMLInputElement;
+    const searchStatusSelect = searchForm.querySelector(
+      "select"
+    ) as HTMLSelectElement;
+
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const searchTitle = searchTitleInput.value.toString();
+      const searchStatus = searchStatusSelect.value.toString();
+      const currentContainer = document.querySelector("#task-container") as HTMLDivElement;
+      currentContainer.innerHTML="";
+      this.displayTaskList(this.taskService.search(searchTitle,searchStatus));
+    });
+
+    
   }
 
   private createTaskWithForm(): Task {
-    const form = document.querySelector("form") as HTMLFormElement;
-    const titleInput = form.querySelector("#title") as HTMLInputElement;
+    const form = document.querySelector(".creation-form") as HTMLFormElement;
+    const titleInput = form.querySelector("#creation-title") as HTMLInputElement;
     const descriptionInput = form.querySelector(
-      "#description"
+      "#creation-description"
     ) as HTMLInputElement;
-    const statusSelect = form.querySelector("#status") as HTMLSelectElement;
+    const statusSelect = form.querySelector("#creation-status") as HTMLSelectElement;
 
     const title = titleInput.value.trim();
     const description = descriptionInput.value.trim();
@@ -95,13 +116,13 @@ export class TaskUI {
     ) as HTMLFormElement;
     updateForm.addEventListener("submit", () => {
       const newTitleInput = updateForm.querySelector(
-        "#title"
+        "#update-title"
       ) as HTMLInputElement;
       const newDescriptionInput = updateForm.querySelector(
-        "#description"
+        "#update-description"
       ) as HTMLInputElement;
       const newStatusSelect = updateForm.querySelector(
-        "#status"
+        "#update-status"
       ) as HTMLSelectElement;
 
       if (newTitleInput != null) task.setTitle(newTitleInput.value.toString());
@@ -127,8 +148,7 @@ export class TaskUI {
     }
   }
 
-  private displayTaskList() {
-    const taskList: Task[] = this.taskService.getAllTasks();
+  private displayTaskList(taskList:Task[]) {
     taskList.forEach((t: Task) => {
       this.renderTask(t);
     });

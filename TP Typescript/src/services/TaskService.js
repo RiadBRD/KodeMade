@@ -6,7 +6,7 @@ export class TaskService {
             title: task.getTitle(),
             description: task.getDescription(),
             status: task.getStatusValue(),
-            id: task.getId()
+            id: task.getId(),
         }));
     }
     removeTask(task) {
@@ -17,7 +17,7 @@ export class TaskService {
             title: task.getTitle(),
             description: task.getDescription(),
             status: task.getStatusValue(),
-            id: task.getId()
+            id: task.getId(),
         }));
     }
     getAllTasks() {
@@ -34,6 +34,17 @@ export class TaskService {
             }
         }
         return tasks;
+    }
+    search(title, status) {
+        let taskList = this.getAllTasks();
+        if (title) {
+            taskList = taskList.filter((task) => task.getTitle() === title);
+        }
+        if (status) {
+            taskList = taskList.filter((task) => task.getStatus() === Status[parseInt(status)]);
+            console.log(taskList);
+        }
+        return taskList;
     }
 }
 //# sourceMappingURL=TaskService.js.map

@@ -4,5 +4,6 @@ export declare class TaskService {
     removeTask(task: Task): void;
     updateTask(task: Task): void;
     getAllTasks(): Task[];
+    search(title?: string, status?: string): Task[];
 }
 //# sourceMappingURL=TaskService.d.ts.map

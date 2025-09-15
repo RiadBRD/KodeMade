@@ -7,8 +7,8 @@ export class TaskUI {
         this.taskService = taskService;
     }
     init() {
-        this.displayTaskList();
-        const form = document.querySelector("form");
+        this.displayTaskList(this.taskService.getAllTasks());
+        const form = document.querySelector(".creation-form");
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             const createdTask = this.createTaskWithForm();
@@ -16,12 +16,23 @@ export class TaskUI {
             this.renderTask(createdTask);
             form.reset();
         });
+        const searchForm = document.querySelector(".search-form");
+        const searchTitleInput = searchForm.querySelector("input");
+        const searchStatusSelect = searchForm.querySelector("select");
+        searchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const searchTitle = searchTitleInput.value.toString();
+            const searchStatus = searchStatusSelect.value.toString();
+            const currentContainer = document.querySelector("#task-container");
+            currentContainer.innerHTML = "";
+            this.displayTaskList(this.taskService.search(searchTitle, searchStatus));
+        });
     }
     createTaskWithForm() {
-        const form = document.querySelector("form");
-        const titleInput = form.querySelector("#title");
-        const descriptionInput = form.querySelector("#description");
-        const statusSelect = form.querySelector("#status");
+        const form = document.querySelector(".creation-form");
+        const titleInput = form.querySelector("#creation-title");
+        const descriptionInput = form.querySelector("#creation-description");
+        const statusSelect = form.querySelector("#creation-status");
         const title = titleInput.value.trim();
         const description = descriptionInput.value.trim();
         const status = Number(statusSelect.value);
@@ -72,9 +83,9 @@ export class TaskUI {
     updateTaskForm(task) {
         const updateForm = document.querySelector(".update-form");
         updateForm.addEventListener("submit", () => {
-            const newTitleInput = updateForm.querySelector("#title");
-            const newDescriptionInput = updateForm.querySelector("#description");
-            const newStatusSelect = updateForm.querySelector("#status");
+            const newTitleInput = updateForm.querySelector("#update-title");
+            const newDescriptionInput = updateForm.querySelector("#update-description");
+            const newStatusSelect = updateForm.querySelector("#update-status");
             if (newTitleInput != null)
                 task.setTitle(newTitleInput.value.toString());
             if (newTitleInput != null)
@@ -96,8 +107,7 @@ export class TaskUI {
                 return "dark";
         }
     }
-    displayTaskList() {
-        const taskList = this.taskService.getAllTasks();
+    displayTaskList(taskList) {
         taskList.forEach((t) => {
             this.renderTask(t);
         });
