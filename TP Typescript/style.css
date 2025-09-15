@@ -50,3 +50,7 @@ body {
   align-items: center;
   gap: 3px;
 }
+
+label{
+  color:black;
+}

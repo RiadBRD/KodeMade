@@ -8,5 +8,10 @@ export declare class TaskUI {
     private updateTaskForm;
     private getStatusColor;
     private displayTaskList;
+    private bindDeleteButton;
+    private bindUpdateButton;
+    private openModal;
+    private bindCloseModalButton;
+    private appendStatusColumn;
 }
 //# sourceMappingURL=TaskUI.d.ts.map

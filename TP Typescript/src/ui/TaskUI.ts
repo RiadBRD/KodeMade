@@ -30,21 +30,25 @@ export class TaskUI {
       e.preventDefault();
       const searchTitle = searchTitleInput.value.toString();
       const searchStatus = searchStatusSelect.value.toString();
-      const currentContainer = document.querySelector("#task-container") as HTMLDivElement;
-      currentContainer.innerHTML="";
-      this.displayTaskList(this.taskService.search(searchTitle,searchStatus));
+      const currentContainer = document.querySelector(
+        "#task-container"
+      ) as HTMLDivElement;
+      currentContainer.innerHTML = "";
+      this.displayTaskList(this.taskService.search(searchTitle, searchStatus));
     });
-
-    
   }
 
   private createTaskWithForm(): Task {
     const form = document.querySelector(".creation-form") as HTMLFormElement;
-    const titleInput = form.querySelector("#creation-title") as HTMLInputElement;
+    const titleInput = form.querySelector(
+      "#creation-title"
+    ) as HTMLInputElement;
     const descriptionInput = form.querySelector(
       "#creation-description"
     ) as HTMLInputElement;
-    const statusSelect = form.querySelector("#creation-status") as HTMLSelectElement;
+    const statusSelect = form.querySelector(
+      "#creation-status"
+    ) as HTMLSelectElement;
 
     const title = titleInput.value.trim();
     const description = descriptionInput.value.trim();
@@ -56,10 +60,6 @@ export class TaskUI {
   }
 
   private renderTask(task: Task): void {
-    const taskContainer = document.querySelector(
-      "#task-container"
-    ) as HTMLDivElement;
-
     const taskElement = document.createElement("div");
     taskElement.classList.add("col-md-4", "mb-3");
 
@@ -73,48 +73,21 @@ export class TaskUI {
         </span>
       </div>
       <div class="card-footer text-end">
-        <button class=" update-btn btn btn-sm btn-outline-success me-2">Modfier</button>
-        <button class=" delete-btn btn btn-sm btn-outline-danger">Supprimer</button>
+        <button class=" update-btn btn btn-sm btn-outline-success me-2">Udpate</button>
+        <button class=" delete-btn btn btn-sm btn-outline-danger">Delete</button>
       </div>
     </div>
   `;
 
-    taskContainer.appendChild(taskElement);
-
-    const currentDeleteButton = taskElement.querySelector(
-      ".delete-btn"
-    ) as HTMLButtonElement;
-    currentDeleteButton.addEventListener("click", () => {
-      taskElement.remove();
-      this.taskService.removeTask(task);
-    });
-
-    const currentUpdateButton = taskElement.querySelector(
-      ".update-btn"
-    ) as HTMLButtonElement;
-    currentUpdateButton.addEventListener("click", () => {
-      const closeBtn = document.getElementById("closeModalBtn")!;
-      const modal = document.getElementById("modal")!;
-      modal.style.display = "flex";
-      closeBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-      });
-
-      window.addEventListener("click", (event) => {
-        if (event.target === modal) {
-          modal.style.display = "none";
-        }
-      });
-
-      this.updateTaskForm(task);
-    });
+    this.bindDeleteButton(task, taskElement);
+    this.bindUpdateButton(task, taskElement);
   }
 
   private updateTaskForm(task: Task) {
     const updateForm = document.querySelector(
       ".update-form"
     ) as HTMLFormElement;
-    updateForm.addEventListener("submit", () => {
+    updateForm.addEventListener("submit", (e) => {
       const newTitleInput = updateForm.querySelector(
         "#update-title"
       ) as HTMLInputElement;
@@ -125,8 +98,9 @@ export class TaskUI {
         "#update-status"
       ) as HTMLSelectElement;
 
-      if (newTitleInput != null) task.setTitle(newTitleInput.value.toString());
-      if (newTitleInput != null)
+      if (newTitleInput.value != "")
+        task.setTitle(newTitleInput.value.toString());
+      if (newDescriptionInput.value != "")
         task.setDescription(newDescriptionInput.value.toString());
       const status = Number(newStatusSelect.value) as Status;
       task.setStatus(status);
@@ -148,9 +122,64 @@ export class TaskUI {
     }
   }
 
-  private displayTaskList(taskList:Task[]) {
+  private displayTaskList(taskList: Task[]) {
     taskList.forEach((t: Task) => {
       this.renderTask(t);
     });
+  }
+
+  private bindDeleteButton(task: Task, taskElement: HTMLDivElement) {
+    const currentDeleteButton = taskElement.querySelector(
+      ".delete-btn"
+    ) as HTMLButtonElement;
+    currentDeleteButton.addEventListener("click", () => {
+      taskElement.remove();
+      this.taskService.removeTask(task);
+    });
+  }
+
+  private bindUpdateButton(task: Task, taskElement: HTMLDivElement) {
+    const currentUpdateButton = taskElement.querySelector(
+      ".update-btn"
+    ) as HTMLButtonElement;
+    currentUpdateButton.addEventListener("click", () => {
+      const closeBtn = document.getElementById(
+        "closeModalBtn"
+      ) as HTMLButtonElement;
+      const modal = document.getElementById("modal") as HTMLDivElement;
+      this.openModal(modal);
+      this.bindCloseModalButton(closeBtn, modal);
+
+      this.updateTaskForm(task);
+    });
+  }
+
+  private openModal(modal: HTMLDivElement) {
+    modal.style.display = "flex";
+    modal.removeAttribute("aria-hidden");
+  }
+
+  private bindCloseModalButton(
+    closeModalBtn: HTMLButtonElement,
+    modal: HTMLDivElement
+  ) {
+    closeModalBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+
+  private appendStatusColumn(task: Task, taskElement: HTMLDivElement) {
+    const taskContainer = document.querySelector(
+      "#task-container"
+    ) as HTMLDivElement;
+    //TO FINISH
+    taskContainer.appendChild(taskElement);
   }
 }

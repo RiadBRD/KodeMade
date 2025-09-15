@@ -13,12 +13,19 @@ export class TaskService {
         localStorage.removeItem(task.getId().toString());
     }
     updateTask(task) {
-        localStorage.setItem(task.getId().toString(), JSON.stringify({
-            title: task.getTitle(),
-            description: task.getDescription(),
-            status: task.getStatusValue(),
-            id: task.getId(),
-        }));
+        try {
+            localStorage.setItem(task.getId().toString(), JSON.stringify({
+                title: task.getTitle(),
+                description: task.getDescription(),
+                status: task.getStatusValue(),
+                id: task.getId(),
+            }));
+            return true;
+        }
+        catch (error) {
+            console.log(error);
+        }
+        return false;
     }
     getAllTasks() {
         const tasks = [];

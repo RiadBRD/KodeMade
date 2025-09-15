@@ -18,16 +18,22 @@ export class TaskService {
     localStorage.removeItem(task.getId().toString());
   }
 
-  updateTask(task: Task): void {
-    localStorage.setItem(
-      task.getId().toString(),
-      JSON.stringify({
-        title: task.getTitle(),
-        description: task.getDescription(),
-        status: task.getStatusValue(),
-        id: task.getId(),
-      })
-    );
+  updateTask(task: Task): boolean {
+    try {
+      localStorage.setItem(
+        task.getId().toString(),
+        JSON.stringify({
+          title: task.getTitle(),
+          description: task.getDescription(),
+          status: task.getStatusValue(),
+          id: task.getId(),
+        })
+      );
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+    return false;
   }
 
   getAllTasks(): Task[] {
@@ -46,13 +52,12 @@ export class TaskService {
     return tasks;
   }
 
-  search(title?: string, status?: string) : Task[] {
+  search(title?: string, status?: string): Task[] {
     let taskList = this.getAllTasks();
     if (title) {
       taskList = taskList.filter((task: Task) => task.getTitle() === title);
-     
     }
-    
+
     if (status) {
       taskList = taskList.filter(
         (task: Task) => task.getStatus() === Status[parseInt(status)]

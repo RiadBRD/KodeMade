@@ -46,12 +46,22 @@
           <form class="row g-3 creation-form">
             <div class="col-md-4">
               <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="creation-title" required />
+              <input
+                type="text"
+                class="form-control"
+                id="creation-title"
+                required
+              />
             </div>
 
             <div class="col-md-4">
               <label for="description" class="form-label">Description</label>
-              <input type="text" class="form-control" id="creation-description" required />
+              <input
+                type="text"
+                class="form-control"
+                id="creation-description"
+                required
+              />
             </div>
 
             <div class="col-md-4">
@@ -64,9 +74,7 @@
             </div>
 
             <div class="col-12 text-center mt-3">
-              <button type="submit" class="btn btn-success px-4">
-                Add
-              </button>
+              <button type="submit" class="btn btn-success px-4">Add</button>
             </div>
           </form>
         </div>
@@ -76,13 +84,17 @@
       <div
         id="task-container"
         class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
-      ></div>
+      >
+      <div class="d-flex flex-column col-md-4" id="0"></div>
+      <div class="d-flex flex-column col-md-4" id="1"></div>
+      <div class="d-flex flex-column col-md-4" id="2"></div>
+    </div>
     </div>
 
     <!-- Task update modal -->
     <div
       id="modal"
-      class="modal fade"
+      class="modal"
       tabindex="-1"
       aria-hidden="true"
       data-bs-backdrop="static"
@@ -90,7 +102,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="modal-title">Update task</h5>
+            <h5 class="modal-title" style="color: black">Update task</h5>
             <button
               type="button"
               class="btn-close"
@@ -101,12 +113,12 @@
           <form class="update-form">
             <div class="mb-3">
               <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="update-title" required />
+              <input type="text" class="form-control" id="update-title" />
             </div>
 
             <div class="mb-3">
               <label for="description" class="form-label">Description</label>
-              <input type="text" class="form-control" id="update-description" required />
+              <input type="text" class="form-control" id="update-description" />
             </div>
 
             <div class="mb-3">
@@ -119,9 +131,7 @@
             </div>
 
             <div class="text-end">
-              <button type="submit" class="btn btn-primary px-4">
-                Save
-              </button>
+              <button type="submit" class="btn btn-primary px-4">Save</button>
             </div>
           </form>
         </div>

@@ -2,7 +2,7 @@ import { Task } from "../models/Task.js";
 export declare class TaskService {
     addTask(task: Task): void;
     removeTask(task: Task): void;
-    updateTask(task: Task): void;
+    updateTask(task: Task): boolean;
     getAllTasks(): Task[];
     search(title?: string, status?: string): Task[];
 }

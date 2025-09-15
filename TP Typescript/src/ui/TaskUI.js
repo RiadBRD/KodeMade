@@ -40,7 +40,6 @@ export class TaskUI {
         return task;
     }
     renderTask(task) {
-        const taskContainer = document.querySelector("#task-container");
         const taskElement = document.createElement("div");
         taskElement.classList.add("col-md-4", "mb-3");
         taskElement.innerHTML = `
@@ -53,42 +52,23 @@ export class TaskUI {
         </span>
       </div>
       <div class="card-footer text-end">
-        <button class=" update-btn btn btn-sm btn-outline-success me-2">Modfier</button>
-        <button class=" delete-btn btn btn-sm btn-outline-danger">Supprimer</button>
+        <button class=" update-btn btn btn-sm btn-outline-success me-2">Udpate</button>
+        <button class=" delete-btn btn btn-sm btn-outline-danger">Delete</button>
       </div>
     </div>
   `;
-        taskContainer.appendChild(taskElement);
-        const currentDeleteButton = taskElement.querySelector(".delete-btn");
-        currentDeleteButton.addEventListener("click", () => {
-            taskElement.remove();
-            this.taskService.removeTask(task);
-        });
-        const currentUpdateButton = taskElement.querySelector(".update-btn");
-        currentUpdateButton.addEventListener("click", () => {
-            const closeBtn = document.getElementById("closeModalBtn");
-            const modal = document.getElementById("modal");
-            modal.style.display = "flex";
-            closeBtn.addEventListener("click", () => {
-                modal.style.display = "none";
-            });
-            window.addEventListener("click", (event) => {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            });
-            this.updateTaskForm(task);
-        });
+        this.bindDeleteButton(task, taskElement);
+        this.bindUpdateButton(task, taskElement);
     }
     updateTaskForm(task) {
         const updateForm = document.querySelector(".update-form");
-        updateForm.addEventListener("submit", () => {
+        updateForm.addEventListener("submit", (e) => {
             const newTitleInput = updateForm.querySelector("#update-title");
             const newDescriptionInput = updateForm.querySelector("#update-description");
             const newStatusSelect = updateForm.querySelector("#update-status");
-            if (newTitleInput != null)
+            if (newTitleInput.value != "")
                 task.setTitle(newTitleInput.value.toString());
-            if (newTitleInput != null)
+            if (newDescriptionInput.value != "")
                 task.setDescription(newDescriptionInput.value.toString());
             const status = Number(newStatusSelect.value);
             task.setStatus(status);
@@ -111,6 +91,43 @@ export class TaskUI {
         taskList.forEach((t) => {
             this.renderTask(t);
         });
+    }
+    bindDeleteButton(task, taskElement) {
+        const currentDeleteButton = taskElement.querySelector(".delete-btn");
+        currentDeleteButton.addEventListener("click", () => {
+            taskElement.remove();
+            this.taskService.removeTask(task);
+        });
+    }
+    bindUpdateButton(task, taskElement) {
+        const currentUpdateButton = taskElement.querySelector(".update-btn");
+        currentUpdateButton.addEventListener("click", () => {
+            const closeBtn = document.getElementById("closeModalBtn");
+            const modal = document.getElementById("modal");
+            this.openModal(modal);
+            this.bindCloseModalButton(closeBtn, modal);
+            this.updateTaskForm(task);
+        });
+    }
+    openModal(modal) {
+        modal.style.display = "flex";
+        modal.removeAttribute("aria-hidden");
+    }
+    bindCloseModalButton(closeModalBtn, modal) {
+        closeModalBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+                modal.setAttribute("aria-hidden", "true");
+            }
+        });
+    }
+    appendStatusColumn(task, taskElement) {
+        const taskContainer = document.querySelector("#task-container");
+        //TO FINISH
+        taskContainer.appendChild(taskElement);
     }
 }
 //# sourceMappingURL=TaskUI.js.map
