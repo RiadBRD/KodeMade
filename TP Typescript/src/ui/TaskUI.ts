@@ -16,26 +16,8 @@ export class TaskUI {
       form.reset();
     });
 
-    const searchForm = document.querySelector(
-      ".search-form"
-    ) as HTMLFormElement;
-    const searchTitleInput = searchForm.querySelector(
-      "input"
-    ) as HTMLInputElement;
-    const searchStatusSelect = searchForm.querySelector(
-      "select"
-    ) as HTMLSelectElement;
+    this.handleSearchForm();
 
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const searchTitle = searchTitleInput.value.toString();
-      const searchStatus = searchStatusSelect.value.toString();
-      const currentContainer = document.querySelector(
-        "#task-container"
-      ) as HTMLDivElement;
-      currentContainer.innerHTML = "";
-      this.displayTaskList(this.taskService.search(searchTitle, searchStatus));
-    });
   }
 
   private createTaskWithForm(): Task {
@@ -58,10 +40,32 @@ export class TaskUI {
 
     return task;
   }
+  private handleSearchForm(){
+    const searchForm = document.querySelector(
+      ".search-form"
+    ) as HTMLFormElement;
+    const searchTitleInput = searchForm.querySelector(
+      "input"
+    ) as HTMLInputElement;
+    const searchStatusSelect = searchForm.querySelector(
+      "select"
+    ) as HTMLSelectElement;
 
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const searchTitle = searchTitleInput.value.toString();
+      const searchStatus = searchStatusSelect.value.toString();
+      const currentContainer = document.querySelector(
+        "#task-container"
+      ) as HTMLDivElement;
+      const currentColumns = Array.from(currentContainer.children) as HTMLDivElement[];
+      currentColumns.forEach((column:HTMLDivElement)=> column.innerHTML="")
+      this.displayTaskList(this.taskService.search(searchTitle, searchStatus));
+    });
+  }
   private renderTask(task: Task): void {
     const taskElement = document.createElement("div");
-    taskElement.classList.add("col-md-4", "mb-3");
+    taskElement.classList.add("mb-3");
 
     taskElement.innerHTML = `
     <div class="card shadow-sm h-100">
@@ -81,13 +85,15 @@ export class TaskUI {
 
     this.bindDeleteButton(task, taskElement);
     this.bindUpdateButton(task, taskElement);
+    this.appendStatusColumn(task,taskElement);
+    
   }
 
   private updateTaskForm(task: Task) {
     const updateForm = document.querySelector(
       ".update-form"
     ) as HTMLFormElement;
-    updateForm.addEventListener("submit", (e) => {
+    updateForm.addEventListener("submit", () => {
       const newTitleInput = updateForm.querySelector(
         "#update-title"
       ) as HTMLInputElement;
@@ -104,8 +110,10 @@ export class TaskUI {
         task.setDescription(newDescriptionInput.value.toString());
       const status = Number(newStatusSelect.value) as Status;
       task.setStatus(status);
-
       this.taskService.updateTask(task);
+
+      
+
     });
   }
 
@@ -179,7 +187,8 @@ export class TaskUI {
     const taskContainer = document.querySelector(
       "#task-container"
     ) as HTMLDivElement;
-    //TO FINISH
-    taskContainer.appendChild(taskElement);
+    
+    const columnToAppend = taskContainer.querySelector(`#column-${task.getStatusValue()}`)
+    columnToAppend?.appendChild(taskElement);
   }
 }

@@ -16,17 +16,7 @@ export class TaskUI {
             this.renderTask(createdTask);
             form.reset();
         });
-        const searchForm = document.querySelector(".search-form");
-        const searchTitleInput = searchForm.querySelector("input");
-        const searchStatusSelect = searchForm.querySelector("select");
-        searchForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const searchTitle = searchTitleInput.value.toString();
-            const searchStatus = searchStatusSelect.value.toString();
-            const currentContainer = document.querySelector("#task-container");
-            currentContainer.innerHTML = "";
-            this.displayTaskList(this.taskService.search(searchTitle, searchStatus));
-        });
+        this.handleSearchForm();
     }
     createTaskWithForm() {
         const form = document.querySelector(".creation-form");
@@ -39,9 +29,23 @@ export class TaskUI {
         const task = new Task(title, description, status);
         return task;
     }
+    handleSearchForm() {
+        const searchForm = document.querySelector(".search-form");
+        const searchTitleInput = searchForm.querySelector("input");
+        const searchStatusSelect = searchForm.querySelector("select");
+        searchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const searchTitle = searchTitleInput.value.toString();
+            const searchStatus = searchStatusSelect.value.toString();
+            const currentContainer = document.querySelector("#task-container");
+            const currentColumns = Array.from(currentContainer.children);
+            currentColumns.forEach((column) => column.innerHTML = "");
+            this.displayTaskList(this.taskService.search(searchTitle, searchStatus));
+        });
+    }
     renderTask(task) {
         const taskElement = document.createElement("div");
-        taskElement.classList.add("col-md-4", "mb-3");
+        taskElement.classList.add("mb-3");
         taskElement.innerHTML = `
     <div class="card shadow-sm h-100">
       <div class="card-body">
@@ -59,10 +63,11 @@ export class TaskUI {
   `;
         this.bindDeleteButton(task, taskElement);
         this.bindUpdateButton(task, taskElement);
+        this.appendStatusColumn(task, taskElement);
     }
     updateTaskForm(task) {
         const updateForm = document.querySelector(".update-form");
-        updateForm.addEventListener("submit", (e) => {
+        updateForm.addEventListener("submit", () => {
             const newTitleInput = updateForm.querySelector("#update-title");
             const newDescriptionInput = updateForm.querySelector("#update-description");
             const newStatusSelect = updateForm.querySelector("#update-status");
@@ -126,8 +131,8 @@ export class TaskUI {
     }
     appendStatusColumn(task, taskElement) {
         const taskContainer = document.querySelector("#task-container");
-        //TO FINISH
-        taskContainer.appendChild(taskElement);
+        const columnToAppend = taskContainer.querySelector(`#column-${task.getStatusValue()}`);
+        columnToAppend?.appendChild(taskElement);
     }
 }
 //# sourceMappingURL=TaskUI.js.map

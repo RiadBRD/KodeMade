@@ -53,6 +53,8 @@ export class TaskService {
   }
 
   search(title?: string, status?: string): Task[] {
+    console.log(title);
+    console.log(status);
     let taskList = this.getAllTasks();
     if (title) {
       taskList = taskList.filter((task: Task) => task.getTitle() === title);
@@ -62,9 +64,8 @@ export class TaskService {
       taskList = taskList.filter(
         (task: Task) => task.getStatus() === Status[parseInt(status)]
       );
-      console.log(taskList);
     }
-
+    console.log(taskList)
     return taskList;
   }
 }

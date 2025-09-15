@@ -4,6 +4,7 @@ export declare class TaskUI {
     constructor(taskService: TaskService);
     init(): void;
     private createTaskWithForm;
+    private handleSearchForm;
     private renderTask;
     private updateTaskForm;
     private getStatusColor;
