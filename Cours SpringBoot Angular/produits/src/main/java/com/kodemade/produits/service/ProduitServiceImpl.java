@@ -3,11 +3,13 @@ package com.kodemade.produits.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kodemade.produits.model.Categorie;
 import com.kodemade.produits.model.Produit;
 import com.kodemade.produits.repository.ProduitRepository;
 
+@Service
 public class ProduitServiceImpl implements ProduitService {
 
     @Autowired

@@ -2,6 +2,8 @@ package com.kodemade.produits.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.kodemade.produits.model.Categorie;
 import com.kodemade.produits.model.Produit;
 
