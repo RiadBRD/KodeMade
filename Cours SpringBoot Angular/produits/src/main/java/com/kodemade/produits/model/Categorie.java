@@ -21,17 +21,12 @@ public class Categorie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCat;
+    private long idCat;
     private String nomCat;
     private String descriptionCat;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categorie")
     private List<Produit> produits;
-
-    @Override
-    public String toString() {
-        return "Categorie [idCat=" + idCat + ", nomCat=" + nomCat + ", descriptionCat=" + descriptionCat + "]";
-    }
 
 }

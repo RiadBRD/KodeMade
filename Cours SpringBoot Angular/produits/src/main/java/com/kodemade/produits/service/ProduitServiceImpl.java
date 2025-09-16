@@ -29,12 +29,12 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
-    public void deleteProduitById(Long id) {
+    public void deleteProduitById(long id) {
         produitRepository.deleteById(id);
     }
 
     @Override
-    public Produit getProduit(Long id) {
+    public Produit getProduit(long id) {
         return produitRepository.findById(id).get();
     }
 
@@ -54,7 +54,7 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
-    public List<Produit> findByNomPrix(String nom, Double prix) {
+    public List<Produit> findByNomPrix(String nom, double prix) {
         return produitRepository.findByNomPrix(nom, prix);
     }
 
@@ -64,7 +64,7 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
-    public List<Produit> findByCategorieIdCat(Long id) {
+    public List<Produit> findByCategorieIdCat(long id) {
         return produitRepository.findByCategorieIdCat(id);
     }
 
