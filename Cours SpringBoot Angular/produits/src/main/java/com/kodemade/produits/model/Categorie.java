@@ -1,0 +1,37 @@
+package com.kodemade.produits.model;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Categorie {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCat;
+    private String nomCat;
+    private String descriptionCat;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "categorie")
+    private List<Produit> produits;
+
+    @Override
+    public String toString() {
+        return "Categorie [idCat=" + idCat + ", nomCat=" + nomCat + ", descriptionCat=" + descriptionCat + "]";
+    }
+
+}
